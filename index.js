@@ -1,6 +1,7 @@
 const express = require("express");
 const userNewsRoutes = require("./src/router/UserNews");
 const { signup, signin } = require("./src/controllers/AuthController");
+require("dotenv").config();
 
 const PORT = 3000;
 const app = express();

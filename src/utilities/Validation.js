@@ -32,7 +32,25 @@ class Validation {
     };
   };
 
-  static validateSignin = () => {};
+  static validateSignin = (userBody) => {
+    const { email, password } = userBody;
+
+    if (email == null || password == null) {
+      return {
+        status: false,
+        message: "Invalid data provided. Email and password are required.",
+      };
+    } else if (typeof email != "string" || typeof password != "string") {
+      return {
+        status: false,
+        message: "Invalid data provided. Email and password should be string.",
+      };
+    }
+    return {
+      status: true,
+      message: "Signin data is correct",
+    };
+  };
 
   static validateUserPreference = () => {};
 

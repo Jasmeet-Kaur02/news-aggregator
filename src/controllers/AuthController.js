@@ -7,7 +7,7 @@ const { addUsers } = require("../helpers");
 
 const parsedUsers = JSON.parse(JSON.stringify(users));
 
-const signup = (req, res) => {
+const signup = async (req, res) => {
   const validationRes = Validation.validateSignup(req.body);
   if (validationRes.status) {
     const user = {
@@ -17,26 +17,24 @@ const signup = (req, res) => {
       id: uuidv4(),
     };
     parsedUsers.push(user);
-    addUsers()
-      .then((addUserRes) => {
-        const token = jwt.sign(user.id, process.env.API_KEY);
-        console.log("add user res", addUserRes);
-        return res.status(200).json({
-          status: true,
-          data: {
-            user: user,
-            accessToken: token,
-          },
-          message: "",
-        });
-      })
-      .catch((err) => {
-        return res.status(500).json({
-          status: false,
-          data: null,
-          message: err,
-        });
+    try {
+      await addUsers(parsedUsers);
+      const token = jwt.sign(user.id, process.env.API_KEY);
+      return res.status(200).json({
+        status: true,
+        data: {
+          user: user,
+          accessToken: token,
+        },
+        message: "User has been registered successfully.",
       });
+    } catch (err) {
+      return res.status(500).json({
+        status: false,
+        data: null,
+        message: err,
+      });
+    }
   } else {
     return res.status(400).json({
       status: false,
@@ -46,6 +44,40 @@ const signup = (req, res) => {
   }
 };
 
-const signin = (req, res) => {};
+const signin = (req, res) => {
+  const validationRes = Validation.validateSignin(req.body);
+  const { email, password } = req.body;
+
+  if (validationRes.status) {
+    const registeredUser = parsedUsers.filter((user) => user.email === email);
+
+    if (
+      registeredUser.length > 0 &&
+      bcrypt.compareSync(password, registeredUser[0].password)
+    ) {
+      const token = jwt.sign(registeredUser[0].id, process.env.API_KEY);
+      return res.status(200).json({
+        status: true,
+        message: "User has been signed in successfully.",
+        data: {
+          user: registeredUser,
+          accessToken: token,
+        },
+      });
+    } else {
+      return res.status(400).json({
+        status: false,
+        message: "Email or password is incorrect.",
+        data: null,
+      });
+    }
+  } else {
+    return res.status(400).json({
+      status: false,
+      data: null,
+      message: validationRes.message,
+    });
+  }
+};
 
 module.exports = { signin, signup };
