@@ -11,41 +11,32 @@ const fetchNews = () => {};
 const updateNewsPreferences = async (req, res) => {
   const validationRes = Validation.validateUserPreference(req.body);
   if (validationRes.status) {
-    const userId = req.params.id;
-    const parsedUsers = JSON.parse(JSON.stringify(users));
-    if (parsedUsers.some((user) => user.id === userId)) {
-      const parsedPreferences = JSON.parse(JSON.stringify(userNewsPreferences));
-      if (parsedPreferences.hasOwnProperty(userId)) {
-        parsedPreferences[userId] = {
-          source: req.body.source ?? parsedPreferences[userId].source,
-          category: req.body.category ?? parsedPreferences[userId].category,
-          country: req.body.country ?? parsedPreferences[userId].country,
-        };
-      } else {
-        parsedPreferences[userId] = {
-          source: req.body.source,
-          category: req.body.category,
-          country: req.body.country,
-        };
-      }
-      try {
-        await updateUserNewsPreferences(parsedPreferences);
-        return res.status(201).json({
-          status: true,
-          message: "News preference has been updated successfully.",
-          data: parsedPreferences,
-        });
-      } catch (err) {
-        return res.status(500).json({
-          status: false,
-          message: err,
-          data: null,
-        });
-      }
+    const userId = req.id;
+    const parsedPreferences = JSON.parse(JSON.stringify(userNewsPreferences));
+    if (parsedPreferences.hasOwnProperty(userId)) {
+      parsedPreferences[userId] = {
+        source: req.body.source ?? parsedPreferences[userId].source,
+        category: req.body.category ?? parsedPreferences[userId].category,
+        country: req.body.country ?? parsedPreferences[userId].country,
+      };
     } else {
-      return res.status(404).json({
+      parsedPreferences[userId] = {
+        source: req.body.source,
+        category: req.body.category,
+        country: req.body.country,
+      };
+    }
+    try {
+      await updateUserNewsPreferences(parsedPreferences);
+      return res.status(201).json({
+        status: true,
+        message: "News preference has been updated successfully.",
+        data: parsedPreferences,
+      });
+    } catch (err) {
+      return res.status(500).json({
         status: false,
-        message: "User with the provided id doesn't exists.",
+        message: err,
         data: null,
       });
     }

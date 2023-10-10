@@ -1,5 +1,6 @@
 const express = require("express");
 const userNewsRoutes = require("./src/router/UserNews");
+const { validateUserId } = require("./src/middleware/users");
 const { signup, signin } = require("./src/controllers/AuthController");
 require("dotenv").config();
 
@@ -16,7 +17,7 @@ app.post("/signup", signup);
 
 app.post("/signin", signin);
 
-app.use("/users/:id/news", userNewsRoutes);
+app.use("/users/:id/news", validateUserId, userNewsRoutes);
 
 app.listen(PORT, (err) => {
   if (err) {
