@@ -8,8 +8,12 @@ const addUsers = async (users) => {
   });
 };
 
-const addUserNewsPreferences = (userNewsPreferences) => {
-  const filePath = `${__dirname}/data/`;
+const updateUserNewsPreferences = (userNewsPreferences) => {
+  const filePath = `${__dirname}/data/userNewsPreferences.json`;
+  return fs.writeFile(filePath, JSON.stringify(userNewsPreferences), {
+    encoding: "utf-8",
+    flag: "w",
+  });
 };
 
 const addUserFavouriteNews = () => {};
@@ -18,7 +22,7 @@ const addUserReadNews = () => {};
 
 module.exports = {
   addUserFavouriteNews,
-  addUserNewsPreferences,
+  updateUserNewsPreferences,
   addUsers,
   addUserReadNews,
 };

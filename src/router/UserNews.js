@@ -11,9 +11,9 @@ const {
 
 router.get("/", fetchNews);
 
-router.put("preferences", updateNewsPreferences);
+router.put("/preferences", updateNewsPreferences);
 
-router.get("preferences", getNewsPreferences);
+router.get("/preferences", getNewsPreferences);
 
 router.put("read", updateReadPreferences);
 

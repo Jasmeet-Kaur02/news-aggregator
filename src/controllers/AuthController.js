@@ -20,7 +20,7 @@ const signup = async (req, res) => {
     try {
       await addUsers(parsedUsers);
       const token = jwt.sign(user.id, process.env.API_KEY);
-      return res.status(200).json({
+      return res.status(201).json({
         status: true,
         data: {
           user: user,

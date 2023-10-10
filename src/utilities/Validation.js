@@ -52,7 +52,25 @@ class Validation {
     };
   };
 
-  static validateUserPreference = () => {};
+  static validateUserPreference = (preferenceData) => {
+    const { source, category, country } = preferenceData;
+
+    if (
+      (typeof source !== "string" && source != null) ||
+      (typeof category !== "string" && category != null) ||
+      (typeof country !== "string" && country != null)
+    ) {
+      return {
+        status: false,
+        message:
+          "Invalid data provided. Source, category and country should be string.",
+      };
+    }
+    return {
+      status: true,
+      message: "User news preference data is correct.",
+    };
+  };
 
   static validateUserReadNews = () => {};
 

@@ -16,6 +16,8 @@ app.post("/signup", signup);
 
 app.post("/signin", signin);
 
+app.use("/users/:id/news", userNewsRoutes);
+
 app.listen(PORT, (err) => {
   if (err) {
     console.log(`Error while running server on the PORT ${PORT}`);
