@@ -9,6 +9,8 @@ const validateUserId = (req, res, next) => {
   } else {
     return res.status(404).json({
       status: false,
+      message: "User with the provided id doesn't not exists.",
+      data: null,
     });
   }
 };

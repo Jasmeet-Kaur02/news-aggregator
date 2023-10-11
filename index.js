@@ -5,7 +5,7 @@ const { verifyToken } = require("./src/middleware/Authorization");
 const { signup, signin } = require("./src/controllers/AuthController");
 require("dotenv").config();
 
-const PORT = 8000;
+const PORT = 3000;
 const app = express();
 
 app.use(express.json());
