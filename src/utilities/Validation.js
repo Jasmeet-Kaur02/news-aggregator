@@ -53,10 +53,10 @@ class Validation {
   };
 
   static validateUserPreference = (preferenceData) => {
-    const { source, category, country } = preferenceData;
+    const { sources, category, country } = preferenceData;
 
     if (
-      (typeof source !== "string" && source != null) ||
+      (typeof sources !== "string" && sources != null) ||
       (typeof category !== "string" && category != null) ||
       (typeof country !== "string" && country != null)
     ) {
