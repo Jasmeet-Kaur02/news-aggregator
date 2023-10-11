@@ -1,10 +1,11 @@
 const express = require("express");
 const userNewsRoutes = require("./src/router/UserNews");
 const { validateUserId } = require("./src/middleware/users");
+const { verifyToken } = require("./src/middleware/Authorization");
 const { signup, signin } = require("./src/controllers/AuthController");
 require("dotenv").config();
 
-const PORT = 3000;
+const PORT = 8000;
 const app = express();
 
 app.use(express.json());
@@ -17,7 +18,7 @@ app.post("/signup", signup);
 
 app.post("/signin", signin);
 
-app.use("/users/:id/news", validateUserId, userNewsRoutes);
+app.use("/users/:id/news", verifyToken, validateUserId, userNewsRoutes);
 
 app.listen(PORT, (err) => {
   if (err) {
