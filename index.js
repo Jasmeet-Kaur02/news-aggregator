@@ -4,6 +4,7 @@ const { validateUserId } = require("./src/middleware/users");
 const { verifyToken } = require("./src/middleware/Authorization");
 const { signup, signin } = require("./src/controllers/AuthController");
 require("dotenv").config();
+const { updateNewsCache } = require("./src/cache/cacheUpdator");
 
 const PORT = 3000;
 const app = express();
@@ -18,6 +19,8 @@ app.post("/signup", signup);
 app.post("/signin", signin);
 
 app.use("/users/:id/news", verifyToken, validateUserId, userNewsRoutes);
+
+updateNewsCache();
 
 app.listen(PORT, (err) => {
   if (err) {
