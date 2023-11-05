@@ -60,7 +60,7 @@ const signin = (req, res) => {
         status: true,
         message: "User has been signed in successfully.",
         data: {
-          user: registeredUser,
+          user: registeredUser[0],
           accessToken: token,
         },
       });

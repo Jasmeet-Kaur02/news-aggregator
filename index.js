@@ -6,7 +6,7 @@ const { signup, signin } = require("./src/controllers/AuthController");
 require("dotenv").config();
 const { updateNewsCache } = require("./src/cache/cacheUpdator");
 
-const PORT = 3000;
+const PORT = process.env.NODE_ENV === "test" ? 0 : 3000;
 const app = express();
 app.use(express.json());
 
@@ -28,3 +28,5 @@ app.listen(PORT, (err) => {
   }
   console.log(`Server is running on the PORT ${PORT}`);
 });
+
+module.exports = app;
